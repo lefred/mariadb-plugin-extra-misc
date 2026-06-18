@@ -1,0 +1,33 @@
+#
+# Extra misc functions
+#
+INSTALL SONAME 'extra_misc';
+SELECT unaccent('Crème brûlée déjà vu') AS unaccented;
+unaccented
+Creme brulee deja vu
+SELECT slugify('Crème brûlée déjà vu!') AS slug;
+slug
+creme-brulee-deja-vu
+SELECT human_number(999) AS n1,
+human_number(1234) AS n2,
+human_number(-1234567890) AS n3;
+n1	n2	n3
+999	1.23K	-1.23B
+SELECT parse_duration('1h 30m 10.5s') AS d1,
+parse_duration('01:02:03') AS d2,
+parse_duration('P1DT2H') AS d3;
+d1	d2	d3
+5410.500	3723.000	93600.000
+SELECT age(NOW()) REGEXP '^0y 0mo 0d 0h 0m [0-9]+s$' AS age_now_ok;
+age_now_ok
+1
+SELECT unaccent(NULL) AS unaccent_null,
+slugify(NULL) AS slugify_null,
+age(NULL) AS age_null,
+human_number(NULL) AS human_number_null,
+parse_duration(NULL) AS parse_duration_null;
+unaccent_null	slugify_null	age_null	human_number_null	parse_duration_null
+NULL	NULL	NULL	NULL	NULL
+SELECT parse_duration('nonsense');
+ERROR HY000: Incorrect duration value: 'nonsense'
+UNINSTALL SONAME 'extra_misc';
