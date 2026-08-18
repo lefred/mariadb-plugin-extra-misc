@@ -1,0 +1,26 @@
+name: Build and package EXTRA_MISC plugin
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: lefred/mariadb-plugin-ci/.github/workflows/build-plugin.yml@v1
+    with:
+      plugin_name: extra-misc
+      plugin_directory: extra_misc
+      build_target: extra_misc
+      plugin_library: extra_misc.so
+      cmake_options: -DPLUGIN_DATE_EXTRA=DYNAMIC
+      test_suite: extra_misc
+      run_tests: ${{ startsWith(github.ref, 'refs/tags/v') }}
